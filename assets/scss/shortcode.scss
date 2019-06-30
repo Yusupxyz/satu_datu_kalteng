@@ -1,0 +1,106 @@
+// Margin top
+@for $i from 1 through 20 {
+    .mgtop-#{$i} { margin-top: #{$i}px !important; }
+}
+
+// Margin left
+@for $i from 1 through 20 {
+    .mgleft-#{$i} { margin-left: #{$i}px !important; }
+}
+
+// Margin right
+@for $i from 1 through 20 {
+    .mgright-#{$i} { margin-right: #{$i}px !important; }
+}
+
+// Margin bottom
+@for $i from 1 through 20 {
+    .mgbottom-#{$i} { margin-bottom: #{$i}px !important; }
+}
+
+// Padding top
+@for $i from 1 through 20 {
+    .pdtop-#{$i} { padding-top: #{$i}px !important; }
+}
+
+// Padding left
+@for $i from 1 through 20 {
+    .pdleft-#{$i} { padding-left: #{$i}px !important; }
+}
+
+// Padding right
+@for $i from 1 through 20 {
+    .pdright-#{$i} { padding-right: #{$i}px !important; }
+}
+
+// Padding bottom
+@for $i from 1 through 20 {
+    .pdbottom-#{$i} { padding-bottom: #{$i}px !important; }
+}
+
+// Pull left
+.pull-left {
+    float: left;
+}
+
+// Pull right
+.pull-right {
+    float: right;
+}
+
+// No margin
+.no-mg-top {
+    margin-top: 0px !important;
+}
+.no-mg-left {
+    margin-left: 0px !important;
+}
+.no-mg-right {
+    margin-right: 0px !important;
+}
+.no-mg-bottom {
+    margin-bottom: 0px !important;
+}
+
+// Small Screen
+@media (max-width: 1100px) {
+    // Margin top
+    @for $i from 1 through 20 {
+	    .sm-mgtop-#{$i} { margin-top: #{$i}px !important; }
+    }
+
+    // Margin left
+    @for $i from 1 through 20 {
+	    .sm-mgleft-#{$i} { margin-left: #{$i}px !important; }
+    }
+
+    // Margin right
+    @for $i from 1 through 20 {
+	    .sm-mgright-#{$i} { margin-right: #{$i}px !important; }
+    }
+
+    // Margin bottom
+    @for $i from 1 through 20 {
+	    .sm-mgbottom-#{$i} { margin-bottom: #{$i}px !important; }
+    }
+
+    // Padding top
+    @for $i from 1 through 20 {
+	    .sm-pdtop-#{$i} { padding-top: #{$i}px !important; }
+    }
+
+    // Padding left
+    @for $i from 1 through 20 {
+	    .sm-pdleft-#{$i} { padding-left: #{$i}px !important; }
+    }
+
+    // Padding right
+    @for $i from 1 through 20 {
+	    .sm-pdright-#{$i} { padding-right: #{$i}px !important; }
+    }
+
+    // Padding bottom
+    @for $i from 1 through 20 {
+	    .sm-pdbottom-#{$i} { padding-bottom: #{$i}px !important; }
+    }	
+}

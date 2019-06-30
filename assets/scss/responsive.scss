@@ -1,0 +1,298 @@
+// Top nav
+@media (min-width: 901px) {
+    .side-nav-mobile {
+        display: none;
+    }
+    .profile-nav-mobile {
+        display: none;
+    }
+}
+@media (max-width: 900px) {
+    .side-nav-mobile {
+        cursor: pointer;
+        height: 100%;
+        color: #fff;
+        font-size: 18px;
+        align-items: center;
+        justify-content: flex-start;
+        @include flexbox();
+    }
+    .profile-nav-mobile {
+        cursor: pointer;
+        height: 100%;
+        color: #fff;
+        font-size: 18px;
+        align-items: center;
+        justify-content: flex-end;
+        @include flexbox();
+    }
+    .top-nav .top-nav-box {
+        .logo-wrapper {
+            padding-left: 23%;
+        }
+        .top-nav-content .top-nav-box {
+            .quick-link {
+                display: none;
+            }
+            .global-search {
+                display: none;
+            }
+            .top-notification {
+                display: none;
+            }
+            .user-top-profile {
+                left: 0px;
+                width: 100%;
+                height: auto;
+                top: 60px;
+                padding: 20px;
+                display: none;
+                position: absolute;
+                background-color: #fff;
+                @include box-shadow(0px 0px 15px rgba(0, 0, 0, 0.07));
+                &:hover {
+                    background-color: #fff;
+                }
+                .user-on {
+                    top: 3px;
+                    left: 3px;
+                }
+                .user-image {
+                    width: 60px;
+                    height: 60px;
+                    margin: 0px auto;
+                }
+                &.active {
+                    background-color: #fff;
+                }
+                .clear {
+                    margin-left: 0px;
+                    .user-name {
+                        color: #263238;
+                        margin-top: 10px;
+                        &:after {
+                            display: none;
+                        }
+                    }
+                    .user-group {
+                        color: #95989a;
+                        margin-top: 10px;
+                        text-align: center;
+                    }
+                    .user-top-menu {
+                        display: block;
+                        position: static;
+                        margin-left: 0px;
+                        margin-top: 20px;
+                        animation-name: initial;
+                        &:before {
+                            left: auto;
+                            right: 20px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+@media (max-width: 600px) {
+    .top-nav .top-nav-box {
+        .logo-wrapper {
+            padding-left: 18%;
+        }
+    }
+}
+@media (max-width: 400px) {
+    .top-nav .top-nav-box {
+        .logo-wrapper {
+            padding-left: 12%;
+        }
+    }
+}
+@media (max-width: 370px) {
+    .top-nav .top-nav-box {
+        .logo-wrapper {
+            padding-left: 4%;
+        }
+    }
+}
+
+// Side nav
+@media (max-width: 900px) {
+    .wrapper {
+        display: block;
+        .side-nav {
+            top: 60px;
+            left: 0px;
+            z-index: 3;
+            display: none;
+            position: fixed;
+            @include border-radius(0em);
+            .side-notification {
+                display: none;
+            }
+        }
+        .main {
+            display: block;
+        }
+    }
+}
+
+// Wrapper
+@media (max-width: 900px) {
+    .wrapper {
+        padding: 10px;
+        .main {
+            padding-left: 0px;
+        }
+    }
+}
+
+// Card
+@media (max-width: 1250px) {
+    .wrapper .card-wrapper {
+        max-width: 50%;
+        @include flex(inherit);
+    }
+}
+@media (max-width: 550px) {
+    .wrapper .card-wrapper {
+        max-width: 100%;
+        @include flex(inherit);
+    }
+}
+
+// Panel
+@media (max-width: 1100px) {
+    .sm-max {
+        width: 100% !important;
+        max-width: 100%;
+        @include flex(100%);
+    }
+    .sm-text-center {
+        display: block;
+        text-align: center;
+    }
+}
+
+// Invoice
+@media (max-width: 1025px) {
+    .wrapper .main .content .invoice-wrapper {
+        &:after {
+            top: -40%;
+            left: -10%;
+        }
+    }
+}
+@media (max-width: 768px) {
+    .wrapper .main {
+        .content .invoice-wrapper {
+            padding: 40px;
+            min-height: auto;
+            .invoice-info {
+                display: block;
+                .client-info {
+                    margin-top: 20px;
+                    text-align: left;
+                }
+            }
+            .invoice-date,
+            .invoice-footer,
+            .invoice-body {
+                margin-top: 20px;
+            }
+            .invoice-footer {
+                img {
+                    width: 30px;
+                    margin-right: 0px;
+                }
+                .col-md-6 {
+                    text-align: center !important;
+                }
+            }
+            &:before {
+                top: -38%;
+            }
+            &:after {
+                top: -44%;
+                left: -10%;
+            }
+        }
+    }
+}
+@media (max-width: 550px) {
+    .wrapper .main .content .invoice-wrapper {
+        &:before {
+            top: -40%;
+        }
+        &:after {
+            top: -44%;
+            left: -5%;
+        }
+    }
+}
+@media (max-width: 400px) {
+    .wrapper .main .content .invoice-wrapper {
+        &:after {
+            top: -44%;
+            left: 0%;
+        }
+    }
+}
+
+// Auth page
+@media (max-width: 550px) {
+    .auth-wrapper {
+        padding: 20px;
+        .auth-header {
+            padding: 50px 20px 20px 20px;
+            .auth-label {
+                left: 20px;
+                bottom: 20px;
+            }
+        }
+        .auth-body {
+            .auth-content {
+                padding: 20px;
+            }
+            .auth-footer {
+                padding: 20px;    
+            }
+        }
+    }
+}
+
+// Media
+@media (max-width: 1000px) {
+    .wrapper .main .content .media-wrapper .media-row {
+        flex-wrap: wrap;
+        .media-box {
+            width: 46%;
+        }
+    }
+}
+@media (max-width: 570px) {
+    .wrapper .main .content .media-wrapper .media-row .media-box {
+        width: 100%;
+        margin-right: 0px;
+    }    
+}
+
+// Chat
+@media (max-width: 1100px) {
+    .wrapper .main .content.chat-wrapper .panel {
+        display: block;
+        .chat-contact {
+            width: 100%;
+            display: block;
+        }
+        .chat-content {
+            width: 100%;
+            display: block;
+        }
+        .chat-detail {
+            width: 100%;
+            display: block;
+        }
+    }
+}

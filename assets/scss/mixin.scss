@@ -1,0 +1,70 @@
+@mixin border-radius($radius) {
+    -webkit-border-radius: $radius;
+    -moz-border-radius: $radius;
+    -ms-border-radius: $radius;
+    -o-border-radius: $radius;
+    border-radius: $radius;
+}
+
+@mixin box-shadow($shadow) {
+    -webkit-box-shadow: $shadow;
+    -moz-box-shadow: $shadow;
+    -ms-box-shadow: $shadow;
+    -o-box-shadow: $shadow;
+    box-shadow: $shadow;
+}
+
+@mixin transition($transition) {
+    -webkit-transition: $transition;
+    -moz-transition: $transition;
+    -ms-transition: $transition;
+    -o-transition: $transition;
+    transition: $transition;
+}
+
+@mixin user-select($select) {
+    -webkit-user-select: $select;
+    -moz-user-select: $select;
+    -ms-user-select: $select;
+    -o-user-select: $select;
+    user-select: $select;
+}
+
+@mixin flexbox() {
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+}
+
+@mixin background-gradient($direction, $first-color, $second-color) {
+    background: -webkit-linear-gradient($direction, $first-color, $second-color);
+    background: -moz-linear-gradient($direction, $first-color, $second-color);
+    background: -ms-linear-gradient($direction, $first-color, $second-color);
+    background: -o-linear-gradient($direction, $first-color, $second-color);
+    background: linear-gradient($direction, $first-color, $second-color);
+}
+
+@mixin flex($value) {
+    -webkit-box-flex: $value;
+    -moz-flex: $value;
+    -ms-flex: $value;
+    -webkit-flex: $value;
+    flex: $value;
+}
+
+@mixin placeholder($color) {
+    &::-webkit-input-placeholder {
+        color: $color;
+    }
+    &::-moz-placeholder {
+        color: $color;
+    }
+    &:-ms-input-placeholder {
+        color: $color;
+    }
+    &:-moz-placeholder {
+        color: $color;
+    }
+}

@@ -1,0 +1,27 @@
+{
+    "dir": "ltr",
+    "lang": "en",
+    "name": "School Payment Hak Artha Digital Internasional",
+    "scope": "/auth/login",
+    "display": "standalone",
+    "start_url": "https://demo.hadigroup.net/auth/login",
+    "short_name": "School Payment",
+    "theme_color": "transparent",
+    "description": "Education Payment Gateway",
+    "orientation": "any",
+    "background_color": "transparent",
+    "related_applications": [],
+    "prefer_related_applications": false,
+    "icons": [
+        {
+            "src": "./images/favicon.png",
+            "type": "image/png",
+            "sizes": "512x512"
+        },
+        {
+            "src": "./images/apple-touch-icon.png",
+            "type": "image/png",
+            "sizes": "512x512"
+        }
+    ]
+}

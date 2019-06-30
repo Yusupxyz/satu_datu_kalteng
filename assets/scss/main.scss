@@ -1,0 +1,39 @@
+/*================================================================================
+	Item Name: Pongo - Simple & Clean Admin Template
+	Version: 1.0
+	Author: Native Theme
+	Author URL: http://www.themeforest.net/user/native-theme
+================================================================================
+
+/*================================================================================
+TABLE OF CONTENTS
+
+1. Normalize
+2. Mixins
+3. Animations
+4. All element blocks stylesheets
+5. Responsive Styles
+6. Overrides plugins stylesheet included with this template
+7. Contains simple shortcode class such margin, padding etc
+================================================================================*/
+
+/* 1. Normalize */
+@import "normalize";
+
+/* 2. Mixins */
+@import "mixin";
+
+/* 3. Animations */
+@import "animations";
+
+/* 4. All element blocks stylesheets */
+@import "layout";
+
+/* 5. Responsive Styles */
+@import "responsive";
+
+/* 6. Overrides plugins stylesheet included with this template */
+@import "plugin-overrides";
+
+/* 7. Contains simple shortcode class such margin, padding etc */
+@import "shortcode";

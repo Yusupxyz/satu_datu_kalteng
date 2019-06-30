@@ -1,0 +1,7 @@
+.validation-message {
+	color: #d9534f;
+	margin-top: .50rem;
+}
+.hidden {
+	display: none
+}

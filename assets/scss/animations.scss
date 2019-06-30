@@ -1,0 +1,106 @@
+@-webkit-keyframes showSlowlyElement {
+    100% { 
+    	transform: scale(1); 
+    	opacity: 1; 
+    }
+    0% { 
+    	transform: scale(1.2); 
+    	opacity: 0; 
+    }
+}
+@keyframes showSlowlyElement {
+    100% { 
+    	transform: scale(1); 
+    	opacity: 1; 
+    }
+    0% { 
+    	transform: scale(1.2); 
+    	opacity: 0; 
+    }
+}
+@keyframes topContentBackground {
+    100% { 
+    	-webkit-transform: rotate(-15deg) scale(1);
+		transform: rotate(-15deg) scale(1);
+    	opacity: 1; 
+    }
+    0% { 
+    	-webkit-transform: rotate(-5deg) scale(1.2);
+		transform: rotate(-5deg) scale(1.2);
+    	opacity: 0; 
+    }
+}
+@keyframes introShoot1 {
+    100% {
+    	width: 450px;
+    	opacity: 1;
+    	right: 50px;
+    	bottom: -90px;
+    	-webkit-transform: rotatey(-18deg) skew(-5deg);
+        transform: rotatey(-18deg) skew(-5deg);
+    }
+    50% {
+    	-webkit-transform: rotatey(-40deg) skew(-10deg);
+        transform: rotatey(-40deg) skew(-10deg);
+    }
+    0% {
+    	opacity: 0;
+    	position: absolute;
+    	right: 0px;
+    	bottom: 0px;
+    	-webkit-transform: rotatey(-2deg) skew(-1deg);
+        transform: rotatey(-2deg) skew(-1deg);
+    }
+}
+@keyframes introShoot2 {
+    100% {
+    	width: 350px;
+    	opacity: 1;
+    	right: 200px;
+    	bottom: -140px;
+    	-webkit-transform: rotatey(-18deg) skew(-5deg);
+        transform: rotatey(-15deg) skew(-5deg);
+    }
+    50% {
+    	-webkit-transform: rotatey(-55deg) skew(-15deg);
+        transform: rotatey(-55deg) skew(-15deg);
+    }
+    25% {
+    	-webkit-transform: rotatey(10deg) skew(-5deg);
+        transform: rotatey(10deg) skew(-5deg);
+    }
+    0% {
+    	opacity: 0;
+    	position: absolute;
+    	right: 300px;
+    	bottom: 0px;
+    	-webkit-transform: rotatey(2deg) skew(1deg);
+        transform: rotatey(2deg) skew(1deg);
+    }
+}
+@keyframes introShoot3 {
+    100% {
+    	width: 250px;
+    	opacity: 1;
+    	right: 0px;
+    	bottom: -120px;
+    	-webkit-transform: rotatey(-18deg) skew(-5deg);
+        transform: rotatey(-15deg) skew(-5deg);
+    }
+    50% {
+    	-webkit-transform: rotatey(-55deg) skew(-15deg);
+        transform: rotatey(-55deg) skew(-15deg);
+    }
+    25% {
+    	-webkit-transform: rotatey(10deg) skew(-5deg);
+        transform: rotatey(10deg) skew(-5deg);
+    }
+    0% {
+    	opacity: 0;
+    	position: absolute;
+    	right: 300px;
+    	bottom: 0px;
+    	-webkit-transform: rotatey(2deg) skew(1deg);
+        transform: rotatey(2deg) skew(1deg);
+    }
+}

@@ -1,0 +1,7 @@
+{
+"version": 3,
+"mappings": "AAAA,IAAK;EACJ,SAAS,EAAE,IAAI;EACZ,KAAK,EAAE,OAAO;EACjB,WAAW,EAAE,2DAA2D;EACrE,UAAU,EAAE,MAAM;;AAEtB,YAAa;EACZ,KAAK,EAAE,IAAI;EACX,MAAM,EAAE,KAAK",
+"sources": ["../scss/front-layout.scss"],
+"names": [],
+"file": "front-layout.css"
+}

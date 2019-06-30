@@ -1,0 +1,30 @@
+.tree tbody tr td {
+	padding-top: 10px !important;
+	padding-bottom: 10px !important;
+	border-top: 0px !important;
+	border-left: 0px !important;
+	border-right: 0px !important;
+	border-bottom: 1px #f4f4f4 solid !important;
+}
+.tree tbody tr td input {
+	margin-left: 10px;
+}
+.treegrid-indent {
+	width:16px; 
+	height: 16px; 
+	display: inline-block; 
+	position: relative;
+}
+.treegrid-expander {
+	width:16px; 
+	height: 16px; 
+	display: inline-block; 
+	position: relative; 
+	cursor: pointer;
+}
+.treegrid-expander-expanded {
+	background-image: url(../img/collapse.png); 
+}
+.treegrid-expander-collapsed {
+	background-image: url(../img/expand.png);
+}
