@@ -126,11 +126,54 @@ class Kategori_d extends Base_Controller {
     	echo json_encode('success');
 	}
 
-	public function create_template($id)
+	/**
+     * Create a New Template
+     *
+     * @access 	private
+     * @param 	
+     * @return 	json(string)
+     */
+	private function create_template($id)
 	{
+		$id_template1=uniqid();
+		$id_template2=uniqid();
 		$data['id_kategori_direktorat'] = $id;
+		$data['periode_semester'] = 1;
+		$data['aktif'] = "1";
+		$data['id_template']=$id_template1;
 		$this->db->insert('tbl_template', $data); 
+		$data2['id_kategori_direktorat'] = $id;
+		$data2['periode_semester'] =2;
+		$data2['aktif'] ="0";
+		$data2['id_template']=$id_template2;
+		$this->db->insert('tbl_template', $data2); 
+		$this->create_lk_kab_kota($id_template1,$id_template2);
 	}
+
+	/**
+     * Create a New Lembar Kerja
+     *
+     * @access 	private
+     * @param 	
+     * @return 	json(string)
+     */
+	private function create_lk_kab_kota($id_template1,$id_template2)
+	{
+		$this->load->model("kab_kota_m");
+		$this->load->model("template_m");
+		$total_kk=$this->kab_kota_m->count()->total;
+
+		for ($i = 0; $i < $total_kk; $i++) {
+				$id_kk=$this->kab_kota_m->limit($i)->id_kabupaten_kota;
+				$data['id_template'] = $id_template1;
+				$data['id_kabupaten_kota'] = $id_kk;
+				$this->db->insert('tbl_lembar_kerja', $data);
+				$data2['id_template'] = $id_template2;
+				$data2['id_kabupaten_kota'] = $id_kk;
+				$this->db->insert('tbl_lembar_kerja', $data2);  
+		}	
+	}
+	
 
 	/**
      * Update Existing Group
@@ -162,11 +205,19 @@ class Kategori_d extends Base_Controller {
 	public function delete()
 	{
 
+		$this->load->model("template_m");
+		$data=$this->template_m->get_by_id($this->input->post('id'));
+		foreach ($data as $key => $value) {
+			$this->db->where('id_template', $value->id_template);
+			$this->db->delete('tbl_lembar_kerja');
+		}
+
 		$this->db->where('id_kategori_direktorat', $this->input->post('id'));
 		$this->db->delete('tbl_template');
 
 		$this->db->where('id_kategori_direktorat', $this->input->post('id'));
 		$this->db->delete('tbl_kategori_direktorat');
+		
 	}
 
 }

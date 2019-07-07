@@ -33,17 +33,17 @@ class Lembar_kerja_m extends CI_Model {
     public function get_lk_aktif($semester)
     {
         $query = $this->db->from('tbl_lembar_kerja as a')
-                        ->select('*, uv.nama as nama_v,u.nama as nama_u')
-                        ->join('tbl_kategori_direktorat as kd', 'kd.id_kategori_direktorat = a.id_kategori_d', 'left')
-                        ->join('users as u', 'u.id = a.id_users', 'left')
-                        ->join('tbl_semester as s', 's.id_semester = a.id_semester', 'left')
-                        ->join('tbl_validasi as v', 'v.id_lembar_kerja = a.id_lembar_kerja', 'left')
-                        ->join('tbl_status as st', 'st.id_status = v.id_status_1', 'left')
+                        ->select('*,u2.nama as nama_admin,u.nama as nama_kk, u3.nama as nama_upload_by')
+                        ->join('tbl_template as t', 't.id_template = a.id_template', 'left')
+                        ->join('tbl_kabupaten_kota as kk', 'kk.id_kabupaten_kota = a.id_kabupaten_kota', 'left')
+                        ->join('users as u', 'u.id = a.id_admin_kk', 'left')
+                        ->join('tbl_kategori_direktorat as kd', 'kd.id_kategori_direktorat = t.id_kategori_direktorat', 'left')
                         ->join('tbl_direktorat as d', 'd.id_direktorat = kd.id_direktorat', 'left')
-                        ->join('tbl_tahun as t', 't.id = s.id_tahun', 'left')
-                        ->join('users as uv', 'uv.id = v.id_login_v', 'left')
-                        ->where('s.periode_semester',$semester)
-                        ->where('t.state','1')
+                        ->join('tbl_status as s', 's.id_status = a.id_status', 'left')
+                        ->join('users as u2', 'u2.id = t.id_admin', 'left')
+                        ->join('users as u3', 'u3.id = a.upload_by', 'left')
+                        ->where('t.periode_semester','1')
+                        ->where('d.id_direktorat',$this->session->userdata('active_user')->id_ref)
                         ->order_by('a.id_lembar_kerja','asc')
                         ->get();
 
@@ -79,7 +79,7 @@ class Lembar_kerja_m extends CI_Model {
     public function getJson($input,$s)
     {
         $table  = 'tbl_lembar_kerja as a';
-        $select = '*, uv.nama as nama_v,u.nama as nama_u,dlk.status as status2,st.status as status1';
+        $select = '*,u2.nama as nama_admin,u.nama as nama_kk, u3.nama as nama_upload_by';
 
         $replace_field  = [
             ['old_name' => 'id_lembar_kerja', 'new_name' => 'a.id_lembar_kerja']
@@ -94,34 +94,30 @@ class Lembar_kerja_m extends CI_Model {
 
         if ($s=='Semester 2'){
         $data = $this->datagrid->query($param, function($data) use ($input) {
-            return $data->join('tbl_kategori_direktorat as kd', 'kd.id_kategori_direktorat = a.id_kategori_d', 'left')
-                        ->join('users as u', 'u.id = a.id_users', 'left')
-                        ->join('tbl_semester as s', 's.id_semester = a.id_semester', 'left')
-                        ->join('tbl_validasi as v', 'v.id_lembar_kerja = a.id_lembar_kerja', 'left')
-                        ->join('tbl_status as st', 'st.id_status = v.id_status_1', 'left')
+            return $data->join('tbl_template as t', 't.id_template = a.id_template', 'left')
+                        ->join('tbl_kabupaten_kota as kk', 'kk.id_kabupaten_kota = a.id_kabupaten_kota', 'left')
+                        ->join('users as u', 'u.id = a.id_admin_kk', 'left')
+                        ->join('tbl_kategori_direktorat as kd', 'kd.id_kategori_direktorat = t.id_kategori_direktorat', 'left')
                         ->join('tbl_direktorat as d', 'd.id_direktorat = kd.id_direktorat', 'left')
-                        ->join('tbl_tahun as t', 't.id = s.id_tahun', 'left')
-                        ->join('users as uv', 'uv.id = v.id_login_v', 'left')
-                        ->join('tbl_download_lk as dlk','dlk.id_user=u.id')
-                        ->where('s.periode_semester','Semester 2')
-                        ->where('t.state','1')
-                        ->where('u.id',$this->session->userdata('active_user')->id)
+                        ->join('tbl_status as s', 's.id_status = a.id_status', 'left')
+                        ->join('users as u2', 'u2.id = t.id_admin', 'left')
+                        ->join('users as u3', 'u3.id = a.upload_by', 'left')
+                        ->where('t.periode_semester','2')
+                        ->where('a.id_kabupaten_kota',$this->session->userdata('active_user')->id_ref)
                         ->order_by('a.id_lembar_kerja','asc');
         });
         }else{
             $data = $this->datagrid->query($param, function($data) use ($input) {
-                return $data->join('tbl_kategori_direktorat as kd', 'kd.id_kategori_direktorat = a.id_kategori_d', 'left')
-                            ->join('users as u', 'u.id = a.id_users', 'left')
-                            ->join('tbl_semester as s', 's.id_semester = a.id_semester', 'left')
-                            ->join('tbl_validasi as v', 'v.id_lembar_kerja = a.id_lembar_kerja', 'left')
-                            ->join('tbl_status as st', 'st.id_status = v.id_status_1', 'left')
+                return $data->join('tbl_template as t', 't.id_template = a.id_template', 'left')
+                            ->join('tbl_kabupaten_kota as kk', 'kk.id_kabupaten_kota = a.id_kabupaten_kota', 'left')
+                            ->join('users as u', 'u.id = a.id_admin_kk', 'left')
+                            ->join('tbl_kategori_direktorat as kd', 'kd.id_kategori_direktorat = t.id_kategori_direktorat', 'left')
                             ->join('tbl_direktorat as d', 'd.id_direktorat = kd.id_direktorat', 'left')
-                            ->join('tbl_tahun as t', 't.id = s.id_tahun', 'left')
-                            ->join('users as uv', 'uv.id = v.id_login_v', 'left')
-                            ->join('tbl_download_lk as dlk','dlk.id_user=u.id')
-                            ->where('s.periode_semester','Semester 1')
-                            ->where('t.state','1')
-                            ->where('u.id',$this->session->userdata('active_user')->id)
+                            ->join('tbl_status as s', 's.id_status = a.id_status', 'left')
+                            ->join('users as u2', 'u2.id = t.id_admin', 'left')
+                            ->join('users as u3', 'u3.id = a.upload_by', 'left')
+                            ->where('t.periode_semester','1')
+                            ->where('a.id_kabupaten_kota',$this->session->userdata('active_user')->id_ref)
                             ->order_by('a.id_lembar_kerja','asc');
             });
         }
@@ -131,7 +127,7 @@ class Lembar_kerja_m extends CI_Model {
     public function getJson2($input,$s)
     {
         $table  = 'tbl_lembar_kerja as a';
-        $select = '*, uv.nama as nama_v,u.nama as nama_u,dlk.status as status2,st.status as status1';
+        $select = '*,u2.nama as nama_admin,u.nama as nama_kk, u3.nama as nama_upload_by';
 
         $replace_field  = [
             ['old_name' => 'id_lembar_kerja', 'new_name' => 'a.id_lembar_kerja']
@@ -146,35 +142,29 @@ class Lembar_kerja_m extends CI_Model {
 
         if ($s=='Semester 2'){
         $data = $this->datagrid->query($param, function($data) use ($input) {
-            return $data->join('tbl_kategori_direktorat as kd', 'kd.id_kategori_direktorat = a.id_kategori_d', 'left')
-                        ->join('users as u', 'u.id = a.id_users', 'left')
-                        ->join('tbl_semester as s', 's.id_semester = a.id_semester', 'left')
-                        ->join('tbl_validasi as v', 'v.id_lembar_kerja = a.id_lembar_kerja', 'left')
-                        ->join('tbl_status as st', 'st.id_status = v.id_status_1', 'left')
+            return $data->join('tbl_template as t', 't.id_template = a.id_template', 'left')
+                        ->join('tbl_kabupaten_kota as kk', 'kk.id_kabupaten_kota = a.id_kabupaten_kota', 'left')
+                        ->join('users as u', 'u.id = a.id_admin_kk', 'left')
+                        ->join('tbl_kategori_direktorat as kd', 'kd.id_kategori_direktorat = t.id_kategori_direktorat', 'left')
                         ->join('tbl_direktorat as d', 'd.id_direktorat = kd.id_direktorat', 'left')
-                        ->join('tbl_tahun as t', 't.id = s.id_tahun', 'left')
-                        ->join('users as uv', 'uv.id = v.id_login_v', 'left')
-                        ->join('tbl_kabupaten_kota as kk', 'kk.id_kabupaten_kota = u.id_ref', 'left')
-                        ->join('tbl_download_lk as dlk','dlk.id_user=u.id')
-                        ->where('s.periode_semester','Semester 2')
-                        ->where('t.state','1')
+                        ->join('tbl_status as s', 's.id_status = a.id_status', 'left')
+                        ->join('users as u2', 'u2.id = t.id_admin', 'left')
+                        ->join('users as u3', 'u3.id = a.upload_by', 'left')
+                        ->where('t.periode_semester','2')
                         ->where('d.id_direktorat',$this->session->userdata('active_user')->id_ref)
                         ->order_by('a.id_lembar_kerja','asc');
         });
         }else{
             $data = $this->datagrid->query($param, function($data) use ($input) {
-                return $data->join('tbl_kategori_direktorat as kd', 'kd.id_kategori_direktorat = a.id_kategori_d', 'left')
-                            ->join('users as u', 'u.id = a.id_users', 'left')
-                            ->join('tbl_semester as s', 's.id_semester = a.id_semester', 'left')
-                            ->join('tbl_validasi as v', 'v.id_lembar_kerja = a.id_lembar_kerja', 'left')
-                            ->join('tbl_status as st', 'st.id_status = v.id_status_1', 'left')
+                return $data->join('tbl_template as t', 't.id_template = a.id_template', 'left')
+                            ->join('tbl_kabupaten_kota as kk', 'kk.id_kabupaten_kota = a.id_kabupaten_kota', 'left')
+                            ->join('users as u', 'u.id = a.id_admin_kk', 'left')
+                            ->join('tbl_kategori_direktorat as kd', 'kd.id_kategori_direktorat = t.id_kategori_direktorat', 'left')
                             ->join('tbl_direktorat as d', 'd.id_direktorat = kd.id_direktorat', 'left')
-                            ->join('tbl_tahun as t', 't.id = s.id_tahun', 'left')
-                            ->join('users as uv', 'uv.id = v.id_login_v', 'left')
-                            ->join('tbl_kabupaten_kota as kk', 'kk.id_kabupaten_kota = u.id_ref', 'left')
-                            ->join('tbl_download_lk as dlk','dlk.id_user=u.id')
-                            ->where('s.periode_semester','Semester 1')
-                            ->where('t.state','1')
+                            ->join('tbl_status as s', 's.id_status = a.id_status', 'left')
+                            ->join('users as u2', 'u2.id = t.id_admin', 'left')
+                            ->join('users as u3', 'u3.id = a.upload_by', 'left')
+                            ->where('t.periode_semester','1')
                             ->where('d.id_direktorat',$this->session->userdata('active_user')->id_ref)
                             ->order_by('a.id_lembar_kerja','asc');
             });
@@ -185,7 +175,7 @@ class Lembar_kerja_m extends CI_Model {
     public function getJson3($input,$s)
     {
         $table  = 'tbl_lembar_kerja as a';
-        $select = '*, uv.nama as nama_v,u.nama as nama_u,dlk.status as status2,st.status as status1';
+        $select = '*,u2.nama as nama_admin,u.nama as nama_kk, u3.nama as nama_upload_by';
 
         $replace_field  = [
             ['old_name' => 'id_lembar_kerja', 'new_name' => 'a.id_lembar_kerja']
@@ -200,34 +190,28 @@ class Lembar_kerja_m extends CI_Model {
 
         if ($s=='Semester 2'){
         $data = $this->datagrid->query($param, function($data) use ($input) {
-            return $data->join('tbl_kategori_direktorat as kd', 'kd.id_kategori_direktorat = a.id_kategori_d', 'left')
-                        ->join('users as u', 'u.id = a.id_users', 'left')
-                        ->join('tbl_semester as s', 's.id_semester = a.id_semester', 'left')
-                        ->join('tbl_validasi as v', 'v.id_lembar_kerja = a.id_lembar_kerja', 'left')
-                        ->join('tbl_status as st', 'st.id_status = v.id_status_1', 'left')
+            return $data->join('tbl_template as t', 't.id_template = a.id_template', 'left')
+                        ->join('tbl_kabupaten_kota as kk', 'kk.id_kabupaten_kota = a.id_kabupaten_kota', 'left')
+                        ->join('users as u', 'u.id = a.id_admin_kk', 'left')
+                        ->join('tbl_kategori_direktorat as kd', 'kd.id_kategori_direktorat = t.id_kategori_direktorat', 'left')
                         ->join('tbl_direktorat as d', 'd.id_direktorat = kd.id_direktorat', 'left')
-                        ->join('tbl_tahun as t', 't.id = s.id_tahun', 'left')
-                        ->join('users as uv', 'uv.id = v.id_login_v', 'left')
-                        ->join('tbl_kabupaten_kota as kk', 'kk.id_kabupaten_kota = u.id_ref', 'left')
-                        ->join('tbl_download_lk as dlk','dlk.id_user=u.id')
-                        ->where('s.periode_semester','Semester 2')
-                        ->where('t.state','1')
+                        ->join('tbl_status as s', 's.id_status = a.id_status', 'left')
+                        ->join('users as u2', 'u2.id = t.id_admin', 'left')
+                        ->join('users as u3', 'u3.id = a.upload_by', 'left')
+                        ->where('t.periode_semester','2')
                         ->order_by('a.id_lembar_kerja','asc');
         });
         }else{
             $data = $this->datagrid->query($param, function($data) use ($input) {
-                return $data->join('tbl_kategori_direktorat as kd', 'kd.id_kategori_direktorat = a.id_kategori_d', 'left')
-                            ->join('users as u', 'u.id = a.id_users', 'left')
-                            ->join('tbl_semester as s', 's.id_semester = a.id_semester', 'left')
-                            ->join('tbl_validasi as v', 'v.id_lembar_kerja = a.id_lembar_kerja', 'left')
-                            ->join('tbl_status as st', 'st.id_status = v.id_status_1', 'left')
+                return $data->join('tbl_template as t', 't.id_template = a.id_template', 'left')
+                            ->join('tbl_kabupaten_kota as kk', 'kk.id_kabupaten_kota = a.id_kabupaten_kota', 'left')
+                            ->join('users as u', 'u.id = a.id_admin_kk', 'left')
+                            ->join('tbl_kategori_direktorat as kd', 'kd.id_kategori_direktorat = t.id_kategori_direktorat', 'left')
                             ->join('tbl_direktorat as d', 'd.id_direktorat = kd.id_direktorat', 'left')
-                            ->join('tbl_tahun as t', 't.id = s.id_tahun', 'left')
-                            ->join('users as uv', 'uv.id = v.id_login_v', 'left')
-                            ->join('tbl_kabupaten_kota as kk', 'kk.id_kabupaten_kota = u.id_ref', 'left')
-                            ->join('tbl_download_lk as dlk','dlk.id_user=u.id')
-                            ->where('s.periode_semester','Semester 1')
-                            ->where('t.state','1')
+                            ->join('tbl_status as s', 's.id_status = a.id_status', 'left')
+                            ->join('users as u2', 'u2.id = t.id_admin', 'left')
+                            ->join('users as u3', 'u3.id = a.upload_by', 'left')
+                            ->where('t.periode_semester','1')
                             ->order_by('a.id_lembar_kerja','asc');
             });
         }

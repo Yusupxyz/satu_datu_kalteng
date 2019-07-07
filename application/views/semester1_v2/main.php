@@ -58,7 +58,7 @@
 <script type="text/javascript">
 	var datagrid = $("#datagrid").datagrid({
 		url						: "<?php echo base_url() . 'semester1_v2/data'; ?>",
-		primaryField			: 'id_validasi', 
+		primaryField			: 'id_lembar_kerja', 
 		rowNumber				: true,
 		searchInputElement 		: '#search', 
 		searchFieldElement 		: '#search-option', 

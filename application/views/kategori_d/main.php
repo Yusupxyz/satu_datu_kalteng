@@ -57,14 +57,6 @@
 		columns					: [
 		{field: 'nama_kategori_direktorat', title: 'Kategori Direktorat', editable: true, sortable: false, width: 450, align: 'left', search: true},
 		{field: 'direktorat', title: 'Direktorat', editable: true, sortable: false, width: 200, align: 'left', search: true},
-		{field: 'Template', title: 'Template', sortable: false, width: 200, align: 'left', search: true, 
-		rowStyler: function(rowData, rowIndex) {
-			if (rowData["template"]=="Tidak Ada"){
-				return "Tidak Ada"
-			}else{
-				return menu2(rowData,rowIndex)
-			}
-		}},
 		{field: 'menu', title: 'Menu', sortable: false, width: 200, align: 'center', search: false, 
 		rowStyler: function(rowData, rowIndex) {
 			return menu(rowData, rowIndex);

@@ -38,9 +38,9 @@ class Semester1_v1 extends Base_Controller {
 		}else{
 			$data['keterangan_invalid'] = "-";
 		}
-        $data['id_status_1'] = $this->input->post('id');
-        $this->db->where('id_validasi',$index);
-		$this->db->update('tbl_validasi', $data); 
+        $data['id_status'] = $this->input->post('id');
+        $this->db->where('id_lembar_kerja',$index);
+		$this->db->update('tbl_lembar_kerja', $data); 
 
         header('Content-Type: application/json');
     	echo json_encode('success');
@@ -113,35 +113,6 @@ class Semester1_v1 extends Base_Controller {
 		}
 	}
 
-	/**
-     * Create a New Semester1
-     *
-     * @access 	public
-     * @param 	
-     * @return 	json(string)
-     */
-
-	public function create()
-	{
-		date_default_timezone_set('Asia/Jakarta');
-		$data['upload_on']=date('Y-m-d G:i:s');
-		$data['id_login_v']=$this->input->post("id_user");
-
-		$config['upload_path']          = './assets/uploads_validasi/';
-		$config['allowed_types']        = 'xls|xlsx';
-		
-		$this->load->library('upload', $config);
-		if ( ! $this->upload->do_upload('excel')){
-			$data['file_validasi'] = $this->upload->display_errors();
-		}else{
-			$data['file_validasi'] = $this->upload->data("file_name");
-		}
-		$this->db->where('id_validasi', $this->input->post("id_validasi"));
-		$this->db->update('tbl_validasi', $data); 
-
-		header('Content-Type: application/json');
-    	echo json_encode('success');
-	}
 
 	public function download($id=null){			
         $this->load->helper('download');
@@ -149,10 +120,10 @@ class Semester1_v1 extends Base_Controller {
         $this->load->model('lembar_kerja_m');
         $file=$this->lembar_kerja_m->getExcel($id);
         
-        force_download('assets/uploads/'.$file->file_lembar_kerja,NULL);
+        force_download('assets/uploads/'.$file->file_upload,NULL);
 
         header('Content-Type: application/json');
-    	echo json_encode(site_url().'assets/uploads/'.$file->file_lembar_kerja);
+    	echo json_encode(site_url().'assets/uploads/'.$file->file_upload);
 	}
 
 }

@@ -8,16 +8,17 @@
 			<div class="col-md-6">
 				<div class="content-box">
 					<form id="form-action" enctype="multipart/form-data" >
-						<input  type="text" name="id" class="hidden"> 
-						<input  type="text" name="id_kategori_direktorat" class="hidden"> 
+						<input  type="text" name="id_user" value="<?php echo $id_user; ?>" class="hidden"> 
+						<input  type="text" name="id_template" class="hidden"> 
+						<input  type="text" name="nama_kategori_direktorat" class="hidden"> 
 						<div class="form-group">
-							<label for="">Direktorat</label>
+							<label for="">Kategori Direktorat</label>
 							<input disabled class="form-control" name="nama_kategori_direktorat" placeholder="kategori direktorat" type="text">
 							<div class="validation-message" data-field="nama_kategori_direktorat"></div>
 						</div>
 						<div class="form-group">
 							<label for=""> File (Excel)</label>
-							<input type="file" class="form-control-file" name="excel" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"/ >
+							<input type="file" class="form-control-file" name="excel" >
 							<div class="validation-message" data-field="excel"></div>
 						</div>
 					</form>
@@ -58,6 +59,7 @@
                      cache:false,
                      async:false,
                       success: function(data){
+						  console.log(data);
 						$('.datagrid-panel').fadeIn();
 						$('.form-panel').fadeOut();
 						datagrid.reload();

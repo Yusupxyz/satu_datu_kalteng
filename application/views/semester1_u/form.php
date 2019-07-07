@@ -10,11 +10,11 @@
 				<div class="content-box">
 					<form id="form-action" enctype="multipart/form-data">
 						<input  type="text" name="id_user" value="<?php echo $id_user; ?>" class="hidden"> 
-						<input  type="text" name="id_semester" value="<?php echo $semester->id_semester; ?>" class="hidden"> 
 						<input  type="text" name="id_lembar_kerja" class="hidden"> 
+						<input  type="text" name="id_template" class="hidden"> 
 						<div class="form-group">
 							<label for=""> Lembar Kerja</label>
-							<select name="id_kategori_direktorat" class="form-control">
+							<select disabled name="id_kategori_direktorat" class="form-control">
 								<option value="">-Pilih-</option>
 								<?php foreach ($kategori_d as $key => $kategori) { ?>
 									<option value="<?php echo $kategori->id_kategori_direktorat; ?>"><?php echo $kategori->nama_kategori_direktorat; ?></option>
@@ -23,12 +23,16 @@
 							<div class="validation-message" data-field="id_kategori_direktorat"></div>
 						</div>
 						<div class="form-group">
+							<label for=""> Nama Lembar Kerja yang di Upload</label>
+							<input type="text" class="form-control" name="template" id="template" disabled></textarea>
+						</div>
+						<div class="form-group">
 							<label for=""> Keterangan</label>
-							<textarea class="form-control" rows="3" name="keterangan_lembar_kerja" placeholder="Ketik keterangan (bila diperlukan)"></textarea>
+							<textarea class="form-control" rows="3" name="keterangan" placeholder="Ketik keterangan (bila diperlukan)"></textarea>
 						</div>
 						<div class="form-group">
 							<label for=""> File (Excel)</label>
-							<input type="file" class="form-control-file" name="excel" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"/ >
+							<input type="file" class="form-control-file" name="excel">
 							<div class="validation-message" data-field="excel"></div>
 						</div>
 					</form>
@@ -43,7 +47,7 @@
 </div>
 
 <script type="text/javascript">
-
+	
 	var onLoad = (function() {
 		var index = "<?php echo $index; ?>";
 		
@@ -56,7 +60,6 @@
 	})();
 
 	function validate(formData) {
-
 		var returnData;
 		$('#form-action').disable([".action"]);
 		$("button[title='save']").html("Validating data, please wait...");
@@ -97,7 +100,8 @@
                      contentType:false,
                      cache:false,
                      async:false,
-                      success: function(data){
+                     success: function(data){
+						  console.log(data);
 						$('.datagrid-panel').fadeIn();
 						$('.form-panel').fadeOut();
 						datagrid.reload();
@@ -133,7 +137,7 @@
 	function form_routes(action) {
 		if (action == 'save') {
 			var formData = $('#form-action').serialize();
-			if (validate(formData) == 'success') {
+			if ($('input[type=file]')[0].files[0].name==document.getElementById('template').value) {
 				swal({   
 					title: "Please check your data",   
 					text: "Uploaded data can not be restored",
@@ -146,6 +150,8 @@
 				}, function() {
 					save(formData);
 				});
+			}else{
+				alert("Nama File Tidak Sama!")
 			}
 		} else {
 			cancel();

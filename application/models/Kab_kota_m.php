@@ -39,6 +39,39 @@ class Kab_kota_m extends CI_Model {
     }
 
     /**
+     * Get Cpunt of KK
+     *
+     * @access 	public
+     * @param 	
+     * @return 	json(array)
+     */
+
+    public function count()
+    {
+    	$query = $this->db->from('tbl_kabupaten_kota')
+                        ->select('count(*) as total')
+                        ->get();
+        return $query->row();
+    }
+
+    /**
+     * Get limit of KK
+     *
+     * @access 	public
+     * @param 	
+     * @return 	json(array)
+     */
+
+    public function limit($row)
+    {
+    	$query = $this->db->from('tbl_kabupaten_kota')
+                        ->select('*')
+                        ->limit(1,$row)
+                        ->get();
+        return $query->row();
+    }
+
+    /**
      * Get Group by ID
      *
      * @access  public

@@ -2,6 +2,7 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Template extends Base_Controller {
+	
 
 	/**
      * List of Users
@@ -21,6 +22,7 @@ class Template extends Base_Controller {
 
 	public function index()
 	{
+		$this->set_aktif();
 		$this->data['title'] = 'Satu Data KKP Kalteng '. get_field('1','settings','meta_value');
 		$this->data['subview'] = 'template/main';
 		$this->load->view('components/main', $this->data);
@@ -35,13 +37,7 @@ class Template extends Base_Controller {
      */
 
 	public function form(){
-		$this->load->model('direktorat_m');
-		$data['groups'] = $this->group_m->all();
-		if ($this->input->post('id_ref')=="2"){
-			$data['refs'] = $this->direktorat_m->all_sub();
-		}elseif ($this->input->post('id_ref')=="3"){
-			$data['refs'] = $this->kab_kota_m->all_sub();
-		}
+		$data['id_user'] = $this->session->userdata('active_user')->id;
 		$data['index'] = $this->input->post('index');
 		$this->load->view('template/form', $data);
 	}
@@ -72,12 +68,14 @@ class Template extends Base_Controller {
 	public function update()
 	{
 		date_default_timezone_set('Asia/Jakarta');
-		$data['id_kategori_direktorat']=$this->input->post("id_kategori_direktorat");
+		$data['id_admin']=$this->input->post("id_user");
 		$data['upload_on']=date('Y-m-d G:i:s');
+		$filename=$this->input->post("nama_kategori_direktorat").'_Kalimantan_Tengah.xlsm';
 	
 		$config['upload_path']          = './assets/uploads_template/';
-		$config['allowed_types']        = 'xls|xlsx';
-		$config['overwrite'] = TRUE;
+		$config['allowed_types']        = '*';
+		$config['overwrite'] 			= TRUE;
+		$config['file_name'] 			= $filename;
 		
 		$this->load->library('upload', $config);
 
@@ -86,22 +84,69 @@ class Template extends Base_Controller {
 		}else{
 			$data['template'] = $this->upload->data("file_name");
 		}
-		$this->db->where('id', $this->input->post('id'));
+		$this->db->where('id_template', $this->input->post('id_template'));
 		$this->db->update('tbl_template', $data); 
 
 		header('Content-Type: application/json');
-    	echo json_encode('success');
+    	echo json_encode($this->upload->data("file_name"));
 	}
 
-    public function download($id=null){			
-        $this->load->helper('download');
-	
-        $this->load->model('template_m');
-        $file=$this->template_m->getExcel($id);
-        
-        force_download('assets/uploads_template/'.$file->template,NULL);
+	/**
+     * Update template
+     *
+     * @access 	public
+     * @param 	
+     * @return 	json(string)
+     */
 
-        header('Content-Type: application/json');
-    	echo json_encode(site_url().'assets/uploads/'.$file->template);
+	public function delete()
+	{
+		$data['template'] = "Tidak Ada";
+		$data['upload_on'] = NULL;
+		$data['id_admin'] = 0;
+		$this->db->where('id_template', $this->input->post('id'));
+		$this->db->update('tbl_template', $data); 
+	}
+
+	/**
+     * Set Template Aktif
+     *
+     * @access 	public
+     * @param 	
+     * @return 	json(string)
+     */
+
+	public function set_aktif()
+	{
+		if (!$this->input->post('val')) {
+			$data['aktif'] = '1';
+			$this->db->where('periode_semester', '1');
+			$this->db->update('tbl_template', $data); 
+
+			$data2['aktif'] = '0';
+			$this->db->where('periode_semester', '2');
+			$this->db->update('tbl_template', $data2);
+		}else{
+			if ($this->input->post('val')=='2'){
+				$data['aktif'] = '0';
+				$this->db->where('periode_semester', '1');
+				$this->db->update('tbl_template', $data); 
+
+				$data2['aktif'] = '1';
+				$this->db->where('periode_semester', '2');
+				$this->db->update('tbl_template', $data2);
+			}else{
+				$data['aktif'] = '1';
+				$this->db->where('periode_semester', '1');
+				$this->db->update('tbl_template', $data); 
+	
+				$data2['aktif'] = '0';
+				$this->db->where('periode_semester', '2');
+				$this->db->update('tbl_template', $data2);
+			}
+			header('Content-Type: application/json');
+			echo json_encode('success');	
+		}
+		
 	}
 }

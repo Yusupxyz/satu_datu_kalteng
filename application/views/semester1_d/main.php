@@ -5,7 +5,7 @@
 			<div class="content-header no-mg-top">
 				<i class="fa fa-location-arrow"></i>
 				<div class="content-header-title">Provinsi Kalimantan Tengah</div>
-				<p class="text-center"><?php echo ucwords(strtolower($active_user->kabupaten_kota));?>	</p>
+				<p class="text-center">Kabupaten/Kota <?php echo ucwords(strtolower($active_user->kabupaten_kota));?>	</p>
 			</div>
 		</div>
 	</div>
@@ -16,7 +16,7 @@
 		<div class="panel">
 			<div class="content-header no-mg-top">
 				<i class="fa fa-newspaper-o"></i>
-				<div class="content-header-title">Validasi Lembar Kerja (Semester I)</div>
+				<div class="content-header-title">Download Lembar Kerja (Semester I)</div>
 			</div>
 			<div class="row">
 				<div class="col-md-12">
@@ -57,7 +57,7 @@
 <script type="text/javascript">
 	var datagrid = $("#datagrid").datagrid({
 		url						: "<?php echo base_url() . 'semester1_d/data'; ?>",
-		primaryField			: 'id_validasi', 
+		primaryField			: 'id_lembar_kerja', 
 		rowNumber				: true,
 		searchInputElement 		: '#search', 
 		searchFieldElement 		: '#search-option', 
@@ -67,8 +67,16 @@
 		columns					: [
 		{field: 'direktorat', title: 'Direktorat', editable: true, sortable: false, width: 200, align: 'left', search: true},
 		{field: 'nama_kategori_direktorat', title: 'Lembar Kerja', editable: true, sortable: false, width: 200, align: 'left', search: true},
-		{field: 'status1', title: 'Sesi I', editable: true, sortable: false, width: 300, align: 'left', search: true},
-		{field: 'Status', title: 'Sesi II', sortable: false, width: 1000, align: 'center', search: false, 
+		{field: 'Status', title: 'Sesi I', sortable: false, width: 1000, align: 'center', search: false, 
+		rowStyler: function(rowData, rowIndex) {
+			if (rowData["status"]==null){
+				return "-"
+			}else{
+				return rowData["status"]
+			}
+		}
+		},
+		{field: 'Status2', title: 'Sesi II', sortable: false, width: 1000, align: 'center', search: false, 
 		rowStyler: function(rowData, rowIndex) {
 			if (rowData["status2"]=="1"){
 				return "Downloaded"
@@ -77,7 +85,7 @@
 			}
 		}
 		},
-		{field: 'download_On', title: 'Downloaded On', sortable: false, width: 750, align: 'center', search: true, 
+		{field: 'Download_on', title: 'Downloaded On', sortable: false, width: 750, align: 'center', search: true, 
 		rowStyler: function(rowData, rowIndex) {
 			if (rowData["download_on"]==null){
 				return "-"
@@ -86,12 +94,12 @@
 			}
 		}
 		},
-		{field: 'download_By', title: 'Downloaded By', sortable: false, width: 750, align: 'center', search: true, 
+		{field: 'Download_by', title: 'Downloaded By', sortable: false, width: 750, align: 'center', search: true, 
 		rowStyler: function(rowData, rowIndex) {
-			if (rowData["nama_u"]=='0'){
+			if (rowData["nama_kk"]==null){
 				return "-"
 			}else{
-				return rowData["nama_u"]
+				return rowData["nama_kk"]
 			}
 		}
 		},
@@ -104,12 +112,12 @@
 			}
 		}
 		},
-		{field: 'nama_V', title: 'Uploaded By', sortable: false, width: 450, align: 'center', search: true, 
+		{field: 'Uploaded_by', title: 'Uploaded By', sortable: false, width: 450, align: 'center', search: true, 
 		rowStyler: function(rowData, rowIndex) {
-			if (rowData["nama_v"]==null){
+			if (rowData["nama_admin"]==null){
 				return "-"
 			}else{
-				return rowData["nama_v"]
+				return rowData["nama_admin"]
 			}
 		}
 		},
@@ -123,25 +131,23 @@
 
 	datagrid.run();
 	function menu(rowData, rowIndex) {
-		if (rowData["file_validasi"]!=""){
-			var menu = '<a href="javascript:;" onclick="main_routes(\'download\', \''+rowData["id_validasi"]+'\')"><i class="fa fa-file-excel-o" style="color:green" ></i></a> ' 
+		if (rowData["template"]!=""){
+			var menu = '<a href="javascript:;" onclick="main_routes(\'download\', \''+rowData["id_template"]+'\',\''+rowData["id_lembar_kerja"]+'\')"><i class="fa fa-file-excel-o" style="color:green" ></i></a> ' 
 			return menu
 		}else{
 			return "-"
 		}
 	}
 
-	function download(rowIndex) {
-		window.location.href = "<?php echo base_url() . 'semester1_d/download/'; ?>" + rowIndex;
+	function download(rowData,rowData2) {
+		window.location.href = "<?php echo base_url() . 'semester1_d/download/'; ?>" + rowData+'/'+rowData2;
+		datagrid.reload();
 	}
 
 
-	function main_routes(action, rowIndex) {
-
-		if (action == 'create') {
-			create_update_form(rowIndex);
-		} else if (action == 'download') {
-			download(rowIndex);
+	function main_routes(action, rowIndex,rowIndex2) {
+		if (action == 'download') {
+			download(rowIndex,rowIndex2);
 		}
 	}
 

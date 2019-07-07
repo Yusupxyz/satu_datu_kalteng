@@ -89,31 +89,32 @@ class Semester1_d extends Base_Controller {
 
 
 	/**
-     * Create a New Semester1
+     * Download Lembar Kerja Semester 1
      *
      * @access 	public
      * @param 	
      * @return 	json(string)
      */
 
-	private function createValidasi($idLembarKerja){
-		$data['id_validasi'] = uniqid();
-		$data['id_lembar_kerja'] = $idLembarKerja;
-		$data['id_status_1'] = '1';
-		$this->db->insert('tbl_validasi', $data); 
-	}
+    public function download($id=null,$id_lembar_kerja=null){			
 
-    public function download($id=null){			
-
+		date_default_timezone_set('Asia/Jakarta');
+		$data['id_admin_kk']=$this->session->userdata('active_user')->id;
+		$data['download_on']=date('Y-m-d G:i:s');
+		$this->db->where('id_lembar_kerja', $id_lembar_kerja);
+		$this->db->update('tbl_lembar_kerja', $data); 
+		
         $this->load->helper('download');
 	
-        $this->load->model('validasi_m');
-        $file=$this->validasi_m->getExcel($id);
+        $this->load->model('template_m');
+        $file=$this->template_m->getExcel($id);
         
-        force_download('assets/uploads_validasi/'.$file->file_validasi,NULL);
+        force_download('assets/uploads_template/'.$file->template,NULL);
+		
+	
 
         header('Content-Type: application/json');
-    	echo json_encode(site_url().'assets/uploads_validasi/'.$file->file_validasi);
+    	echo json_encode("File Kosong");
 	}
 
 }

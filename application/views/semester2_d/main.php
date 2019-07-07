@@ -58,7 +58,7 @@
 <script type="text/javascript">
 	var datagrid = $("#datagrid").datagrid({
 		url						: "<?php echo base_url() . 'semester2_d/data'; ?>",
-		primaryField			: 'id_validasi', 
+		primaryField			: 'id_lembar_kerja', 
 		rowNumber				: true,
 		searchInputElement 		: '#search', 
 		searchFieldElement 		: '#search-option', 
@@ -68,11 +68,51 @@
 		columns					: [
 		{field: 'direktorat', title: 'Direktorat', editable: true, sortable: false, width: 200, align: 'left', search: true},
 		{field: 'nama_kategori_direktorat', title: 'Lembar Kerja', editable: true, sortable: false, width: 200, align: 'left', search: true},
-		{field: 'status', title: 'Status', editable: true, sortable: false, width: 300, align: 'left', search: true},
-		{field: 'download_on', title: 'Downloaded On', editable: true, sortable: false, width: 450, align: 'left', search: true},
-		{field: 'nama_u', title: 'Downloaded By', editable: true, sortable: false, width: 450, align: 'left', search: true},
-		{field: 'upload_on', title: 'Uploaded On', editable: true, sortable: false, width: 450, align: 'left', search: true},
-		{field: 'nama_u', title: 'Uploaded By', editable: true, sortable: false, width: 450, align: 'left', search: true},
+		{field: 'Status', title: 'Status', sortable: false, width: 1000, align: 'center', search: false, 
+		rowStyler: function(rowData, rowIndex) {
+			if (rowData["status"]==null){
+				return "-"
+			}else{
+				return rowData["status"]
+			}
+		}
+		},
+		{field: 'Download_on', title: 'Downloaded On', sortable: false, width: 750, align: 'center', search: true, 
+		rowStyler: function(rowData, rowIndex) {
+			if (rowData["download_on"]==null){
+				return "-"
+			}else{
+				return rowData["download_on"]
+			}
+		}
+		},
+		{field: 'Download_by', title: 'Downloaded By', sortable: false, width: 750, align: 'center', search: true, 
+		rowStyler: function(rowData, rowIndex) {
+			if (rowData["nama_kk"]==null){
+				return "-"
+			}else{
+				return rowData["nama_kk"]
+			}
+		}
+		},
+		{field: 'upload_On', title: 'Uploaded On', sortable: false, width: 750, align: 'center', search: true, 
+		rowStyler: function(rowData, rowIndex) {
+			if (rowData["upload_on"]==null){
+				return "-"
+			}else{
+				return rowData["upload_on"]
+			}
+		}
+		},
+		{field: 'Uploaded_by', title: 'Uploaded By', sortable: false, width: 450, align: 'center', search: true, 
+		rowStyler: function(rowData, rowIndex) {
+			if (rowData["nama_admin"]==null){
+				return "-"
+			}else{
+				return rowData["nama_admin"]
+			}
+		}
+		},
 		{field: 'menu', title: 'Download', sortable: false, width: 200, align: 'center', search: false, 
 		rowStyler: function(rowData, rowIndex) {
 			return menu(rowData, rowIndex)
@@ -83,12 +123,17 @@
 
 	datagrid.run();
 	function menu(rowData, rowIndex) {
-		var menu = '<a href="javascript:;" onclick="main_routes(\'download\', \''+rowData["id_lembar_kerja"]+'\')"><i class="fa fa-file-excel-o" style="color:green"></i></a> ' 
+		if (rowData["template"]!=""){
+			var menu = '<a href="javascript:;" onclick="main_routes(\'download\', \''+rowData["id_template"]+'\',\''+rowData["id_lembar_kerja"]+'\')"><i class="fa fa-file-excel-o" style="color:green" ></i></a> ' 
+			return menu
+		}else{
+			return "-"
+		}
 		return menu;
 	}
 
 	function download(rowIndex) {
-		window.location.href = "<?php echo base_url() . 'semester1_d/download/'; ?>" + rowIndex;
+		window.location.href = "<?php echo base_url() . 'semester2_d/download/'; ?>" + rowIndex;
 	}
 
 

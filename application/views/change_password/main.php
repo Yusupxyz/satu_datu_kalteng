@@ -8,7 +8,7 @@
 			<div class="col-md-6">
 				<div class="content-box">
 					<form id="form-action">
-						<input type="text" name="id" class="hidden" value="<?php echo $active_user->id; ?>">
+			<input type="text" name="id" class="hidden" value="<?php echo $active_user->id; ?>">
 						<div class="form-group">
 							<label for=""> Old Password</label>
 							<input class="form-control" name="old_password" placeholder="Old Password" type="password">

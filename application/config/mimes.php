@@ -113,6 +113,7 @@ return array(
 	'xlsx'	=>	array('application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'application/zip', 'application/vnd.ms-excel', 'application/msword', 'application/x-zip'),
 	'word'	=>	array('application/msword', 'application/octet-stream'),
 	'xl'	=>	'application/excel',
+	'xlsm'  =>  'application/vnd.ms-excel.sheet.macroenabled.12',
 	'eml'	=>	'message/rfc822',
 	'json'  =>	array('application/json', 'text/json'),
 	'pem'   =>	array('application/x-x509-user-cert', 'application/x-pem-file', 'application/octet-stream'),

@@ -86,7 +86,8 @@ class Kategori_d_m extends CI_Model {
             return $data;
         });
         $data = $this->datagrid->query($param, function($data) use ($input) {
-			return $data->join('tbl_direktorat as d', 'd.id_direktorat = a.id_direktorat', 'left');
+            return $data->join('tbl_direktorat as d', 'd.id_direktorat = a.id_direktorat', 'left')
+                        ->order_by('id_kategori_direktorat','asc');
 		});
 
         return $data;

@@ -24,7 +24,6 @@
 						<div class="content-box-header">
 							<div class="row">
 							<div class="col-md-6">
-									<button class="btn btn-primary" onclick="main_routes('create', '')"><i class="fa fa-pencil"></i> Upload New Lembar Kerja</button>
 								</div>
 								<div class="col-md-6 form-inline justify-content-end">
 									<select class="form-control mb-1 mr-sm-1 mb-sm-0" id="search-option"></select>
@@ -58,7 +57,7 @@
 <script type="text/javascript">
 	var datagrid = $("#datagrid").datagrid({
 		url						: "<?php echo base_url() . 'semester2_u/data'; ?>",
-		primaryField			: 'id_validasi', 
+		primaryField			: 'id_lembar_kerja', 
 		rowNumber				: true,
 		searchInputElement 		: '#search', 
 		searchFieldElement 		: '#search-option', 
@@ -67,20 +66,71 @@
 		pageInfoElement 		: '#info',
 		columns					: [
 		{field: 'nama_kategori_direktorat', title: 'Lembar Kerja', editable: true, sortable: false, width: 200, align: 'left', search: true},
-		{field: 'file_lembar_kerja', title: 'Nama File (Excel)', editable: true, sortable: false, width: 300, align: 'left', search: true},
-		{field: 'status', title: 'Status', editable: true, sortable: false, width: 200, align: 'left', search: true},
-		{field: 'keterangan_lembar_kerja', title: 'Keterangan', editable: true, sortable: false, width: 450, align: 'left', search: true},
-		{field: 'keterangan_invalid', title: 'Keterangan Invalid', editable: true, sortable: false, width: 450, align: 'left', search: true},
-		{field: 'uploaded_on', title: 'Uploaded On', editable: true, sortable: false, width: 450, align: 'left', search: true},
-		{field: 'nama_u', title: 'Uploaded By', editable: true, sortable: false, width: 450, align: 'left', search: true}
+		{field: 'template', title: 'Nama File (Excel)', editable: true, sortable: false, width: 300, align: 'left', search: true},
+		{field: 'Status', title: 'Status', sortable: false, width: 750, align: 'center', search: true, 
+		rowStyler: function(rowData, rowIndex) {
+			if (rowData["status"]=="" || rowData["status"]==null){
+				return "-"
+			}else{
+				return rowData["status"]
+			}
+		}
+		},
+		{field: 'Keterangan', title: 'Keterangan', sortable: false, width: 750, align: 'center', search: true, 
+		rowStyler: function(rowData, rowIndex) {
+			if (rowData["keterangan"]==""){
+				return "-"
+			}else{
+				return rowData["keterangan"]
+			}
+		}
+		},
+		{field: 'Keterangan_invalid', title: 'Keterangan Invalid', sortable: false, width: 750, align: 'center', search: true, 
+		rowStyler: function(rowData, rowIndex) {
+			if (rowData["keterangan_invalid"]==""){
+				return "-"
+			}else{
+				return rowData["keterangan_invalid"]
+			}
+		}
+		},	
+		{field: 'Uploaded_on', title: 'Uploaded On', sortable: false, width: 750, align: 'center', search: true, 
+		rowStyler: function(rowData, rowIndex) {
+			if (rowData["uploaded_on"]==null){
+				return "-"
+			}else{
+				return rowData["uploaded_on"]
+			}
+		}
+		},
+		{field: 'Uploaded_by', title: 'Uploaded By', sortable: false, width: 750, align: 'center', search: true, 
+		rowStyler: function(rowData, rowIndex) {
+			if (rowData["upload_by"]=='0'){
+				return "-"
+			}else{
+				return rowData["nama_upload_by"]
+			}
+		}
+		},
+		{field: 'menu', title: 'Menu', sortable: false, width: 200, align: 'center', search: false, 
+		rowStyler: function(rowData, rowIndex) {
+			return menu(rowData, rowIndex)
+		}}
 	]
 });
 
 	datagrid.run();
-	// function menu(rowData, rowIndex) {
-	// 	var menu = '<a href="javascript:;" onclick="main_routes(\'update\', ' + rowIndex + ')"><i class="fa fa-pencil"></i> Validasi</a> ' 
-	// 	return menu;
-	// }
+	
+	function menu(rowData, rowIndex) {
+		if (rowData["status"]=="FINAL"){
+			var menu = "-"
+		}else if(rowData["template"]=="Tidak Ada"){
+			var menu = "-"
+		}else{
+			var menu = '<a href="javascript:;" onclick="main_routes(\'update\', ' + rowIndex +','+rowData["group_id"]+ ')"><i class="fa fa-pencil"></i> Upload</a> '
+		}
+		return menu
+	}
 
 	function create_update_form(rowIndex) {
 		$.post("<?php echo base_url() . 'semester2_u/form'; ?>", {index : rowIndex}).done(function(data) {

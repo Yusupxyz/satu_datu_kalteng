@@ -76,8 +76,6 @@ class Semester1_u extends Base_Controller {
 			
 		];
 
-			// $this->form_validation->set_rules('excel', 'File', 'callback_file_check');
-
 		$this->form_validation->set_rules($rules);
 		if ($this->form_validation->run()) {
 			header("Content-type:application/json");
@@ -98,48 +96,7 @@ class Semester1_u extends Base_Controller {
 
 	public function action()
 	{
-		if (!$this->input->post('id_lembar_kerja')) {
-			$this->create();
-		} else {
 			$this->update();
-		}
-	}
-
-	/**
-     * Create a New Semester1
-     *
-     * @access 	public
-     * @param 	
-     * @return 	json(string)
-     */
-
-	public function create()
-	{
-		date_default_timezone_set('Asia/Jakarta');
-		$uniqid= uniqid();
-		$data['id_lembar_kerja'] = $uniqid;
-		$data['id_users'] = $this->input->post('id_user');
-		$data['id_semester'] = $this->input->post('id_semester');
-		$data['id_kategori_d'] = $this->input->post('id_kategori_direktorat');
-		$data['keterangan_lembar_kerja'] = $this->input->post('keterangan_lembar_kerja');
-		$data['uploaded_on']=date('Y-m-d G:i:s');
-	
-		$config['upload_path']          = './assets/uploads/';
-		$config['allowed_types']        = 'xls|xlsx';
-		
-		$this->load->library('upload', $config);
-
-		if ( ! $this->upload->do_upload('excel')){
-			$data['file_lembar_kerja'] = $this->upload->display_errors();
-		}else{
-			$data['file_lembar_kerja'] = $this->upload->data("file_name");
-		}
-		$this->db->insert('tbl_lembar_kerja', $data); 
-
-		$this->createValidasi($uniqid);
-
-		header('Content-Type: application/json');
-    	echo json_encode('success');
 	}
 
 
@@ -155,44 +112,24 @@ class Semester1_u extends Base_Controller {
 	public function update()
 	{
 		date_default_timezone_set('Asia/Jakarta');
-		$uniqid= uniqid();
-		$data['id_lembar_kerja'] = $uniqid;
-		$data['id_kategori_d'] = $this->input->post('id_kategori_direktorat');
-		$data['keterangan_lembar_kerja'] = $this->input->post('keterangan_lembar_kerja');
+		$data['upload_by'] = $this->input->post('id_user');
+		$data['keterangan'] = $this->input->post('keterangan');
 		$data['uploaded_on']=date('Y-m-d G:i:s');
 	
 		$config['upload_path']          = './assets/uploads/';
-		$config['allowed_types']        = 'xls|xlsx';
+		$config['allowed_types']        = '*';
+		$config['overwrite'] 			= TRUE;
 		
 		$this->load->library('upload', $config);
-
 		if ( ! $this->upload->do_upload('excel')){
-			$data['file_lembar_kerja'] = $this->upload->display_errors();
+			$data['file_upload'] = $this->upload->display_errors();
 		}else{
-			$data['file_lembar_kerja'] = $this->upload->data("file_name");
+			$data['file_upload'] = $this->upload->data("file_name");
 		}
 		$this->db->where('id_lembar_kerja',$this->input->post("id_lembar_kerja"));
 		$this->db->update('tbl_lembar_kerja', $data); 
-
 		header('Content-Type: application/json');
-    	echo json_encode('success');
+		echo json_encode('success');
 	}
-
-	/**
-     * Create a New Semester1
-     *
-     * @access 	public
-     * @param 	
-     * @return 	json(string)
-     */
-
-	private function createValidasi($idLembarKerja)
-	{
-		$data['id_validasi'] = uniqid();
-		$data['id_lembar_kerja'] = $idLembarKerja;
-		$data['id_status_1'] = '1';
-		$this->db->insert('tbl_validasi', $data); 
-	}
-
 
 }
